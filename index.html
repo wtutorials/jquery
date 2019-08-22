@@ -1,0 +1,141 @@
+<html>
+  <head>
+    <title>WEB 3</title>
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+  </head>
+<body>
+  <h1 id="welcome"></h1>
+  <h1 title="This is a h1" id="h1">This is a h1 tag</h1>
+  <button id="clickMe">I am an ID!</button>
+
+  <input type="text"  id="changeMe"/>
+
+
+  <button class="iAmClass">I am Class!</button>
+  <ul>
+    <li>Sample 0</li>
+    <li>Sample 1</li>
+    <li>Sample 2</li>
+    <li>Sample 3</li>
+  </ul>
+  <h1 id="jj">LAURIE GWAPO</h1>
+  <table id="wrap">
+    <thead>
+      <TR>
+        <td>First Name</td>
+        <td>Last Name</td>
+      </TR>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Juan</td>
+        <td>Dela Cruz</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="my">delete me</h3>
+
+
+  <input type="text" id="username" placeholder="username" />
+
+  <input type="password" id="password" placeholder="*******" />
+
+  <button id="login">Login</button>
+
+  <button id="callPHP">Call PHP GET</button>
+
+  <button id="callPHPPOST">Call PHP POST</button>
+
+</body>
+<script type="text/javascript">
+  $(document).ready(function( ) {
+    $('#clickMe').click(function(){
+      alert('hi');
+    })
+
+    $('.iAmClass').click(function(){
+      alert('iAmClass');
+    })
+
+    $('li').each(function(index){
+      console.log('List:' + index)
+    })
+
+    $('h1').css({backgroundColor: 'red'});
+
+    var title = $('#h1').attr('title');
+    console.log(title);
+
+    $('#h1').append('<b>I am Bold Text</b>');
+    $('<b>I am Append to</b>').appendTo('#h1');
+
+    $('#jj').prepend('<b>I am </b>');
+    $('<b>I am </b>').prependTo('#jj')
+    $('#wrap').wrap('<div class="new" / >')
+
+    $('#my').remove()
+
+    $('#changeMe').change(function(){
+      alert('I am new');
+    })
+
+    // Ajax
+
+    $.get('http://localhost/abli/api/public/increment/v1/ratings/test', data => {
+      $('#welcome').append(data)
+    })
+
+
+    // Login to account
+    $('#login').click(function() {
+      var username = $('#username').val()
+      var password = $('#password').val()
+
+      var parameter = {
+        username: username,
+        password: password
+      }
+
+      console.log(parameter.username)
+
+      var route = 'http://localhost/abli/api/public/increment/v1/authenticate';
+
+      // userData => {
+      //     console.log(userData)
+      //   })
+      $.post(route, parameter, response => {
+        $.post(route + '/user?token=' + response.token, {}, function(userData){
+          console.log(userData)
+        })
+      })
+    })
+
+
+    // Call PHP
+    $('#callPHP').click(function() {
+      var username = $('#username').val()
+      var password = $('#password').val()
+
+      $.get('./api/LoginGet.php?username=' + username + '&password=' + password, response => {
+        console.log(response)
+      })
+    })
+
+
+        // Call PHP
+    $('#callPHPPOST').click(function() {
+      var username = $('#username').val()
+      var password = $('#password').val()
+      var parameter = {
+        username: username,
+        password: password
+      }
+      $.post('./api/LoginPost.php', parameter, response => {
+        console.log(response)
+      })
+    })
+    
+
+  });
+</script>
+</html>
